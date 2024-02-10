@@ -21,13 +21,29 @@ const navigate = useNavigate();
         console.log(user);
         if (user) {
           alert("Your SignUp Complete Successfully");
+          saveUser(name,email,password)
           form.reset();
-          navigate('/signup')
         }
       })
       .catch((err) => console.error(err));
   };
 
+  const saveUser = (name,email,password) =>{
+    const user = {name, email,password};
+    fetch('http://localhost:4000/api/createuser',{
+          method:'POST',
+          headers:{
+              'content-type':'application/json'
+          },
+          body: JSON.stringify(user)
+      }) 
+      .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      navigate('/login')
+    })      
+          }
+  
   return (
     <div>
       <div className="hero w-full ml-10 my-10">
