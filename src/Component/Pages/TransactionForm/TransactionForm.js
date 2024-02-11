@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TransactionForm = () => {
+  const navigate = useNavigate();
   const formField = {
     name: "",
     income: "",
@@ -22,12 +24,13 @@ const TransactionForm = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        alert("Your Transaction Complete Successfully");
         setValues(formField);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+    alert("Your Transaction Complete Successfully");
+    navigate("/dashboard");
   };
 
   const handleCategoryChange = (category) => {
