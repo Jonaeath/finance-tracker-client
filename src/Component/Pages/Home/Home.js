@@ -1,9 +1,10 @@
 import React from 'react';
+import TransactionForm from '../TransactionForm/TransactionForm';
 
 const Home = () => {
     return (
         <div>
-            <h1>Home</h1>
+            <TransactionForm/>
         </div>
     );
 };
