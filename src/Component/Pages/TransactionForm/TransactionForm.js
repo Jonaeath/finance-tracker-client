@@ -1,41 +1,33 @@
 import React, { useState } from "react";
 
 const TransactionForm = () => {
-  const [values, setValues] = useState({
+  const formField = {
     name: "",
     income: "",
     expense: "",
     category: "",
     amount: "",
-  });
+  };
+  const [values, setValues] = useState(formField);
 
-  const handelSubmit = async (e) => {
+  const handelSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:4000/api/transactions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
+    fetch("http://localhost:4000/api/transactions", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        alert("Your Transaction Complete Successfully");
+        setValues(formField);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to add transaction");
-      }
-
-      const data = await response.json();
-      console.log(data);
-
-      setValues({
-        name: "",
-        income: "",
-        category: "",
-        amount: "",
-      });
-    } catch (error) {
-      console.error("Error adding transaction:", error);
-    }
   };
 
   const handleCategoryChange = (category) => {
@@ -58,7 +50,6 @@ const TransactionForm = () => {
                 placeholder="Name"
                 className="input input-bordered"
                 required
-                value={values.name}
                 onChange={(e) => setValues({ ...values, name: e.target.value })}
               />
             </div>
@@ -72,7 +63,6 @@ const TransactionForm = () => {
                 placeholder="Income"
                 className="input input-bordered"
                 required
-                value={values.income}
                 onChange={(e) =>
                   setValues({ ...values, income: e.target.value })
                 }
@@ -118,7 +108,6 @@ const TransactionForm = () => {
                 placeholder="Amount"
                 className="input input-bordered"
                 required
-                value={values.amount}
                 onChange={(e) =>
                   setValues({ ...values, amount: e.target.value })
                 }
